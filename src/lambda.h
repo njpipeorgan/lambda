@@ -5,8 +5,8 @@
 #include <vector>
 #include <tuple>
 
-namespace lambda
-{
+//namespace lambda
+//{
 #pragma push_macro("FWD")
 #define FWD(x) std::forward<decltype(x)>(x)
 
@@ -130,6 +130,15 @@ struct _is_clean<First, Rest...> :
                                  _is_clean<Rest...>::value> {};
 
 template<typename Any>
+struct _remove_rref { using type = Any; };
+template<typename Any>
+struct _remove_rref<Any&&> { using type = Any; };
+
+template<typename Any>
+using _remove_rref_t = typename _remove_rref<Any>::type;
+
+
+template<typename Any>
 struct _is_expr : std::false_type {};
 template<typename Any>
 struct _is_expr<Any&> : _is_expr<Any> {};
@@ -155,7 +164,7 @@ struct _any_expr<> : std::false_type {};
 // remove constness and reference for expression,
 // wrap _value_expr for non-expression.
 template<typename Any>
-using _expr_t = std::conditional_t<_is_expr<Any>::value, _clean_t<Any>, _value_expr<Any>>;
+using _expr_t = std::conditional_t<_is_expr<Any>::value, _clean_t<Any>, _value_expr<_remove_rref_t<Any>>>;
 
 
 template<typename Target, typename Value, typename = std::enable_if_t<!_is_expr<Value>::value>>
@@ -269,7 +278,7 @@ struct _oper_expr
 template<typename Operator, typename... Args>
 inline auto _make_oper_expr(Operator&& op, Args&&... args)
 {
-    return _oper_expr<_clean_t<Operator>, _expr_t<Args&&>...>(
+    return _oper_expr<_clean_t<Operator&&>, _expr_t<Args&&>...>(
         FWD(op), _expr_cast<_expr_t<Args&&>>(FWD(args))...);
 }
 
@@ -387,4 +396,4 @@ CONSTRUCT_BINARY_EXPR(||, logic_or)
 #undef CONSTRUCT_MEMBER_BINARY_EXPR
 #pragma pop_macro("FWD")
 
-}
+//}
