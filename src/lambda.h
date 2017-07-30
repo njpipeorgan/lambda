@@ -271,6 +271,11 @@ struct _oper_expr
     {
         return _discrete_eval(op_, args_, FWD(fills)...);
     }
+    template<typename... Args>
+    inline auto call(Args&&... args) const
+    {
+        return _make_oper_expr(op::fun_call{}, *this, FWD(args)...);
+    }
 
     DEFINE_MEMBER_OPERATORS()
 };
@@ -301,6 +306,11 @@ struct _value_expr
     {
         return arg_;
     }
+    template<typename... Args>
+    inline auto call(Args&&... args) const
+    {
+        return _make_oper_expr(op::fun_call{}, *this, FWD(args)...);
+    }
     
     DEFINE_MEMBER_OPERATORS()
 };
@@ -322,6 +332,11 @@ struct _slot_expr
         decltype(std::get<I - 1>(std::forward_as_tuple(FWD(fills)...)))
     {
         return std::get<I - 1>(std::forward_as_tuple(FWD(fills)...));
+    }
+    template<typename... Args>
+    inline auto call(Args&&... args) const
+    {
+        return _make_oper_expr(op::fun_call{}, *this, FWD(args)...);
     }
     
     DEFINE_MEMBER_OPERATORS()
