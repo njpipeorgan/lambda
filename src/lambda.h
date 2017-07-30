@@ -267,10 +267,10 @@ struct _oper_expr
 };
 
 template<typename Operator, typename... Args>
-inline auto _make_oper_expr(Operator&& op, Args... args)
+inline auto _make_oper_expr(Operator&& op, Args&&... args)
 {
-    return _oper_expr<_clean_t<Operator>, _expr_t<Args>...>(
-        FWD(op), _expr_cast<_expr_t<Args>>(FWD(args))...);
+    return _oper_expr<_clean_t<Operator>, _expr_t<Args&&>...>(
+        FWD(op), _expr_cast<_expr_t<Args&&>>(FWD(args))...);
 }
 
 template<typename Arg>
@@ -327,6 +327,7 @@ static const auto _4 = _slot_expr<4>{};
 static const auto _5 = _slot_expr<5>{};
 static const auto _6 = _slot_expr<6>{};
 static const auto _7 = _slot_expr<7>{};
+static const auto _8 = _slot_expr<8>{};
 
 
 // wrapper class for expressions
