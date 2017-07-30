@@ -69,13 +69,13 @@ You can explicitly specify how *lambda* captures variables using `by_val` and `b
     x = 5;
     f(1);     // gives 1
 
-In certain cases, `by_val` and `by_val` are used to delay evaluations:
+In certain cases, `by_val` and `by_ref` are used to delay evaluations:
 
     auto x = 0;
     auto f = by_ref(std::cout) << "count: " << ++by_ref(x) << "\n";
-    f();      // prints count: 0
     f();      // prints count: 1
     f();      // prints count: 2
+    f();      // prints count: 3
 
 ### `by_fn`
 
@@ -93,20 +93,20 @@ If you prefer `printf` to `std::cout`:
 
 **Native C++ lambda expression**
 
-`lambda` is relative short for many simple expressions, especially where there are a lot of operators: 
+*lambda* is relative short for many simple expressions, especially where there are a lot of operators: 
 
     _1 * _2 + _3;                                    // this library
     [](auto x, auto y, auto z) { return x * y + z }; // native lambda
 
-But `lambda` do not support certain operators (`.`, `.*`, `static_cast`, ...), thus goes very bad with object-oriented programming. Also, `lambda` does not support multiple statements. 
+But *lambda* do not support certain operators (`.`, `.*`, `static_cast`, `dynamic_cast`, ...), thus goes very bad with object-oriented programming. Also, *lambda* does not support multiple statements. 
 
 **Boost::lambda**
 
-`lambda` is superior because of functionalities provided by C++11. Type inference and native lambda support make `lambda` expressions easy to write: `lambda` supports an abitrary number of slots, and automatically handles types. 
+*lambda* is superior because of functionalities provided by C++11. Type inference and native lambda support make *lambda* expressions easy to write: *lambda* supports an abitrary number of slots, and automatically handles types. 
 
 **About performance**
 
-`lambda` expressions are in forms of expression templates, where references and values are stored during compiling. Arguments in the calls are passed through perfect forwarding to every nodes in the expression trees, and compilers should be able to optimize away unnecessary evaluations. 
+*lambda* expressions are in forms of expression templates, where references and values are stored during compiling. Arguments in the calls are passed through perfect forwarding to every nodes in the expression trees, and compilers should be able to optimize away unnecessary evaluations. 
 
 
 
