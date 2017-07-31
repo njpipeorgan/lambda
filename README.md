@@ -55,27 +55,29 @@ Slots in *lambda* are expressions evaluated to be corresponding arguments when f
 
 ### `by_val` and `by_ref`
 
-*lambda* expressions captures variables by references by default. For example, 
+*lambda* expressions capture variables by references by default. For example, 
 
     int x = 0;
     auto f = _ + x;
     x = 5;
     f(1);     // gives 6
     
-You can explicitly specify how *lambda* captures variables using `by_val` and `by_ref`:
+You can explicitly specify how *lambda* expressions capture variables using `by_val` and `by_ref`:
 
     int x = 0;
     auto f = _ + by_val(x);
     x = 5;
     f(1);     // gives 1
 
-In certain cases, `by_val` and `by_ref` are used to delay evaluations:
+In certain cases, `by_val` and `by_ref` are used to delay evaluations. For example,  
 
     auto x = 0;
     auto f = by_ref(std::cout) << "count: " << ++by_ref(x) << "\n";
     f();      // prints count: 1
     f();      // prints count: 2
     f();      // prints count: 3
+
+Otherwise, "count: " is immediately printed, and `x` is incremented and then passed by value. 
 
 ### `by_fn`
 
