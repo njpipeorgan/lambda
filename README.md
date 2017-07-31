@@ -14,7 +14,7 @@
         return 0;
     }
 
-Compile the program with a compiler support C++14 (g++ >= 5.1, icc >= 16.0).
+Compile the program with a compiler support C++14 (g++ ≥ 5.1, icc ≥ 16.0).
 
 ## Slots and operators
 
