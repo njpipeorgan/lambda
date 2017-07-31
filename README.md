@@ -112,7 +112,7 @@ In the following example, the for_each loop will be vectorized, where `_ += 1` i
 
     std::vector<int> x(1000, 1);
     std::for_each(x.begin(), x.end(), _ += 1);
-    std::cout << x[rand() % 2] << std::endl;
+    std::cout << x[rand() % 2] << "\n";
 
 
 
