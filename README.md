@@ -95,7 +95,7 @@ You can explicitly specify how *lambda* expressions capture variables using `by_
 
 In certain cases, `by_val` and `by_ref` are used to delay evaluations. For example,  
 
-    auto x = 0;
+    int x = 0;
     auto f = by_ref(std::cout) << "count: " << ++by_ref(x) << "\n";
     f();      // prints count: 1
     f();      // prints count: 2
@@ -119,7 +119,7 @@ If you prefer `printf` to `std::cout`:
 
 **Native C++ lambda expression**
 
-*lambda* is relative short for many simple expressions, especially where there are a lot of operators: 
+*lambda* is relatively short for many simple expressions, especially where there are a lot of operators: 
 
     _1 * _2 + _3;                                    // this library
     
