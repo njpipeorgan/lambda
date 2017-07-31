@@ -128,7 +128,7 @@ If you prefer `printf` to `std::cout`:
     [](auto&& x, auto&& y, auto&& z)                 // equivalent native lambda
     { return std::forward<decltype(x)>(x) * std::forward<decltype(y)>(y) + std::forward<decltype(z)>(z) }; 
 
-But *lambda* do not support certain operators (`.`, `.*`, `static_cast`, `dynamic_cast`, ...), thus goes very bad with object-oriented programming. 
+But *lambda* do not support certain operators (`.`, `.*`, `dynamic_cast`, ...), thus goes very bad with object-oriented programming. 
 
 **[Boost::lambda](http://www.boost.org/doc/libs/1_64_0/doc/html/lambda.html)**
 
