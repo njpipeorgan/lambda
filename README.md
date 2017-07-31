@@ -23,28 +23,35 @@ Slots in *lambda* are expressions evaluated to be corresponding arguments when f
 **Arithmetic**
 
     auto f = _1 * _2 + _3;
-    f(2, 3, 4);         // gives 10
-
-**Comparison**
-
-    auto f = _1 < _2;
-    f(3, 2);            // gives false
-
-**Standard output**
-
-    auto f = std::cout << _ << "\n";
-    f("Hello, world!"); // prints Hello, world!
+    f(2, 3, 4);            // gives 10
 
 **Assignment**
 
     int x = 0;
     auto f = (_ = 42);
-    f(x);               // x becomes 42
+    f(x);                  // x becomes 42
+    
+**Function call**
+
+    auto f = _1.call(_2, _3);
+    struct { bool operator()(bool x, bool y) { return !x & y; } } andn;
+    f(andn, false, true);  // gives true
+    
+**Multiple statements**
+    
+    auto f = (_1 ^= _2, _2 ^= _1, _1 ^= _2);
+    int x = 1, y = 2;
+    f(x, y);               // x becomes 2, y becomes 1
     
 **Slot number**
 
     auto f = _4;
-    f(1, 2, 3, 4, 5);   // gives 4, all other arguments are ignored
+    f(1, 2, 3, 4, 5);      // gives 4, all other arguments are ignored
+    
+**Standard output**
+
+    auto f = std::cout << _ << "\n";
+    f("Hello, world!");    // prints Hello, world!
     
 **Use with STL**
 
@@ -100,7 +107,7 @@ If you prefer `printf` to `std::cout`:
     _1 * _2 + _3;                                    // this library
     [](auto x, auto y, auto z) { return x * y + z }; // native lambda
 
-But *lambda* do not support certain operators (`.`, `.*`, `static_cast`, `dynamic_cast`, ...), thus goes very bad with object-oriented programming. Also, *lambda* does not support multiple statements. 
+But *lambda* do not support certain operators (`.`, `.*`, `static_cast`, `dynamic_cast`, ...), thus goes very bad with object-oriented programming. 
 
 **Boost::lambda**
 
