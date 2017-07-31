@@ -73,6 +73,28 @@ DEFINE_BINARY_OPERATOR(greater_eq, FWD(x) >= FWD(y))
 DEFINE_BINARY_OPERATOR(logic_and,  FWD(x) && FWD(y))
 DEFINE_BINARY_OPERATOR(logic_or,   FWD(x) || FWD(y))
 DEFINE_BINARY_OPERATOR(comma,      FWD(x) COMMA FWD(y))
+template<typename Target>
+struct lambda_cast // static_cast only
+{
+    template<typename X>
+    auto operator()(X&& x) const -> Target
+    { return static_cast<Target>(FWD(x)); }
+};
+struct lambda_if
+{
+    template<typename X, typename Y, typename Z>
+    void operator()(X&& x, Y&& y, Z&& z) const
+    { if (FWD(x)) FWD(y); else FWD(z); }
+    template<typename X, typename Y>
+    void operator()(X&& x, Y&& y) const
+    { if (FWD(x)) FWD(y); }
+};
+struct lambda_conditional
+{
+    template<typename X, typename Y, typename Z>
+    auto operator()(X&& x, Y&& y, Z&& z) const
+    { return FWD(x) ? FWD(y) : FWD(z); }
+};
 
 // member operators
 DEFINE_UNARY_OPERATOR (pre_inc,    ++FWD(x))
@@ -405,6 +427,15 @@ CONSTRUCT_BINARY_EXPR(>=, greater_eq)
 CONSTRUCT_BINARY_EXPR(&&, logic_and)
 CONSTRUCT_BINARY_EXPR(||, logic_or)
 CONSTRUCT_BINARY_EXPR(COMMA, comma)
+template<typename Target, typename X>
+auto cast_(X&& x)
+{ return _make_oper_expr(op::lambda_cast<Target>{}, FWD(x)); }
+template<typename... Xs>
+auto if_(Xs&&... xs)
+{ return _make_oper_expr(op::lambda_if{}, FWD(xs)...); }
+template<typename X, typename Y, typename Z>
+auto conditional_(X&& x, Y&& y, Z&& z)
+{ return _make_oper_expr(op::lambda_conditional{}, FWD(x), FWD(y), FWD(z)); }
 
 
 #undef DEFINE_UNARY_OPERATOR
