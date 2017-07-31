@@ -8,6 +8,7 @@ namespace lambda
 {
 #pragma push_macro("FWD")
 #define FWD(x) std::forward<decltype(x)>(x)
+#define COMMA ,
 
 #define DEFINE_UNARY_OPERATOR(name, expr)                                   \
 struct name                                                                 \
@@ -71,6 +72,7 @@ DEFINE_BINARY_OPERATOR(less_eq,    FWD(x) <= FWD(y))
 DEFINE_BINARY_OPERATOR(greater_eq, FWD(x) >= FWD(y))
 DEFINE_BINARY_OPERATOR(logic_and,  FWD(x) && FWD(y))
 DEFINE_BINARY_OPERATOR(logic_or,   FWD(x) || FWD(y))
+DEFINE_BINARY_OPERATOR(comma,      FWD(x) COMMA FWD(y))
 
 // member operators
 DEFINE_UNARY_OPERATOR (pre_inc,    ++FWD(x))
@@ -280,7 +282,8 @@ struct _oper_expr
 };
 
 template<typename Operator, typename... Args>
-inline auto _make_oper_expr(Operator&& op, Args&&... args)
+inline auto _make_oper_expr(Operator&& op, Args&&... args) ->
+    _oper_expr<_clean_t<Operator&&>, _expr_t<Args&&>...>
 {
     return _oper_expr<_clean_t<Operator&&>, _expr_t<Args&&>...>(
         FWD(op), _expr_cast<_expr_t<Args&&>>(FWD(args))...);
@@ -401,6 +404,7 @@ CONSTRUCT_BINARY_EXPR(<=, less_eq)
 CONSTRUCT_BINARY_EXPR(>=, greater_eq)
 CONSTRUCT_BINARY_EXPR(&&, logic_and)
 CONSTRUCT_BINARY_EXPR(||, logic_or)
+CONSTRUCT_BINARY_EXPR(COMMA, comma)
 
 
 #undef DEFINE_UNARY_OPERATOR
@@ -409,6 +413,7 @@ CONSTRUCT_BINARY_EXPR(||, logic_or)
 #undef CONSTRUCT_BINARY_EXPR
 #undef CONSTRUCT_MEMBER_UNARY_EXPR
 #undef CONSTRUCT_MEMBER_BINARY_EXPR
+#undef COMMA
 #undef FWD
 #pragma pop_macro("FWD")
 
