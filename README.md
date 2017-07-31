@@ -122,7 +122,11 @@ If you prefer `printf` to `std::cout`:
 *lambda* is relative short for many simple expressions, especially where there are a lot of operators: 
 
     _1 * _2 + _3;                                    // this library
+    
     [](auto x, auto y, auto z) { return x * y + z }; // native lambda
+    
+    [](auto&& x, auto&& y, auto&& z)                 // equivalent native lambda
+    { return std::forward<decltype(x)>(x) * std::forward<decltype(y)>(y) + std::forward<decltype(z)>(z) }; 
 
 But *lambda* do not support certain operators (`.`, `.*`, `static_cast`, `dynamic_cast`, ...), thus goes very bad with object-oriented programming. 
 
