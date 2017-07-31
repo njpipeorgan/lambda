@@ -20,7 +20,7 @@ Compile the program with a compiler support C++14 ([g++](https://gcc.gnu.org/) â
 
 Slots in *lambda* are expressions evaluated to be corresponding arguments when function calls are made. They are pre-defined as `_1`, `_2`, ..., `_8`, and `_` is a synonym for `_1`. Common C++ operators are overloaded for slots so that writing lambdas is just like writing normal expressions. 
 
-**Arithmetic**
+**Arithmetics**
 
     auto f = _1 * _2 + _3;
     f(2, 3, 4);            // gives 10
