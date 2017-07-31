@@ -95,7 +95,7 @@ You can explicitly specify how *lambda* expressions capture variables using `by_
 
 In certain cases, `by_val` and `by_ref` are used to delay evaluations. For example,  
 
-    int x = 0;
+    int x = 0;
     auto f = by_ref(std::cout) << "count: " << ++by_ref(x) << "\n";
     f();      // prints count: 1
     f();      // prints count: 2
