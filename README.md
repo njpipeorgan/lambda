@@ -43,6 +43,23 @@ Slots in *lambda* are expressions evaluated to be corresponding arguments when f
     int x = 1, y = 2;
     f(x, y);               // x becomes 2, y becomes 1
     
+**Cast**
+
+    auto f = cast_<double>(_1) / _2;
+    f(1, 2);               // gives 0.5
+    
+<!---
+**If and conditional**
+
+    int x = 5;
+    auto f = if_(_1, ++_2, --_2);
+    f(false, x);           // x becomes 4
+    
+    int y = 5;
+    auto g = _2 = conditional_(_1, _2 + 1, _2 - 1);
+    f(true, y);            // y becomes 6
+-->
+    
 **Slot number**
 
     auto f = _4;
