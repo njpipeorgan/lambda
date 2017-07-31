@@ -14,7 +14,7 @@
         return 0;
     }
 
-Compile the program with a compiler support C++14.
+Compile the program with a compiler support C++14 (g++ >= 5.1, icc >= 16.0).
 
 ## Slots and operators
 
@@ -110,7 +110,7 @@ But *lambda* do not support certain operators (`.`, `.*`, `static_cast`, `dynami
 
 *lambda* expressions are in forms of expression templates, where references and values are stored during compiling. Arguments in the calls are passed through perfect forwarding to every nodes in the expression trees, and compilers should be able to optimize away unnecessary evaluations. 
 
-In the following example, the for_each loop will be vectorized, where `_ += 1` is evaluated by `paddd` or `vpaddd` instruction if supported:
+In the following example, the for_each loop will be vectorized, where `_ += 1` is evaluated by `paddd`(SEE2) or `vpaddd`(AVX2) instruction if supported:
 
     std::vector<int> x(1000, 1);
     std::for_each(x.begin(), x.end(), _ += 1);
