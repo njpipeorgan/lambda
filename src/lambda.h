@@ -1,12 +1,11 @@
 #pragma once
+#ifndef LAMBDA_H
+#define LAMBDA_H
 
-#include <algorithm>
-#include <functional>
-#include <vector>
 #include <tuple>
 
-//namespace lambda
-//{
+namespace lambda
+{
 #pragma push_macro("FWD")
 #define FWD(x) std::forward<decltype(x)>(x)
 
@@ -271,10 +270,10 @@ struct _oper_expr
     {
         return _discrete_eval(op_, args_, FWD(fills)...);
     }
-    template<typename... Args>
-    inline auto call(Args&&... args) const
+    template<typename... CallArgs>
+    inline auto call(CallArgs&&... call_args) const
     {
-        return _make_oper_expr(op::fun_call{}, *this, FWD(args)...);
+        return _make_oper_expr(op::fun_call{}, *this, FWD(call_args)...);
     }
 
     DEFINE_MEMBER_OPERATORS()
@@ -306,10 +305,10 @@ struct _value_expr
     {
         return arg_;
     }
-    template<typename... Args>
-    inline auto call(Args&&... args) const
+    template<typename... CallArgs>
+    inline auto call(CallArgs&&... call_args) const
     {
-        return _make_oper_expr(op::fun_call{}, *this, FWD(args)...);
+        return _make_oper_expr(op::fun_call{}, *this, FWD(call_args)...);
     }
     
     DEFINE_MEMBER_OPERATORS()
@@ -333,10 +332,10 @@ struct _slot_expr
     {
         return std::get<I - 1>(std::forward_as_tuple(FWD(fills)...));
     }
-    template<typename... Args>
-    inline auto call(Args&&... args) const
+    template<typename... CallArgs>
+    inline auto call(CallArgs&&... call_args) const
     {
-        return _make_oper_expr(op::fun_call{}, *this, FWD(args)...);
+        return _make_oper_expr(op::fun_call{}, *this, FWD(call_args)...);
     }
     
     DEFINE_MEMBER_OPERATORS()
@@ -403,12 +402,16 @@ CONSTRUCT_BINARY_EXPR(>=, greater_eq)
 CONSTRUCT_BINARY_EXPR(&&, logic_and)
 CONSTRUCT_BINARY_EXPR(||, logic_or)
 
+
 #undef DEFINE_UNARY_OPERATOR
 #undef DEFINE_BINARY_OPERATOR
 #undef CONSTRUCT_UNARY_EXPR
 #undef CONSTRUCT_BINARY_EXPR
 #undef CONSTRUCT_MEMBER_UNARY_EXPR
 #undef CONSTRUCT_MEMBER_BINARY_EXPR
+#undef FWD
 #pragma pop_macro("FWD")
 
-//}
+}
+
+#endif /* _LAMBDA_H */
