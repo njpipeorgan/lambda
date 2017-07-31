@@ -14,7 +14,7 @@
         return 0;
     }
 
-Compile the program with a compiler support C++14 (g++ ≥ 5.1, icc ≥ 16.0).
+Compile the program with a compiler support C++14 ([g++](https://gcc.gnu.org/) ≥ 5.1, [icc](https://software.intel.com/en-us/c-compilers) ≥ 16.0).
 
 ## Slots and operators
 
@@ -130,9 +130,9 @@ If you prefer `printf` to `std::cout`:
 
 But *lambda* do not support certain operators (`.`, `.*`, `static_cast`, `dynamic_cast`, ...), thus goes very bad with object-oriented programming. 
 
-**Boost::lambda**
+**[Boost::lambda](http://www.boost.org/doc/libs/1_64_0/doc/html/lambda.html)**
 
-*lambda* is superior because of functionalities provided by C++11. Type inference and native lambda support make *lambda* expressions easy to write: *lambda* supports an abitrary number of slots, and automatically handles types. 
+*lambda* is superior because of key functionalities provided by C++11 and C++14. Type inference and native lambda support make *lambda* expressions easy to write: *lambda* supports an abitrary number of slots, and automatically handles types. 
 
 **About performance**
 
