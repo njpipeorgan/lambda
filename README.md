@@ -4,7 +4,7 @@
 
 ## A basic example
 
-    #include "lambda.h"
+    #include "lambda/lambda.h"
     using namespace lambda; // to make things simple
 
     int main(int argc, char* argv[])
